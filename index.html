@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Planner</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<link rel="icon" type="image/png" href="logo.png">
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <img src="logo.png" alt="logo" width="60px"></span>
+      <span class="nav-title">Attendance Planner</span>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="nav-link active">Home</a></li>
+      <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+    </ul>
+
+    <!-- Profile Button & Dropdown -->
+    <div class="profile-wrapper">
+      <button class="profile-btn" id="profileBtn" aria-label="Open student profile" aria-haspopup="true" aria-expanded="false">
+        <svg class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </button>
+
+      <div class="profile-dropdown" id="profileDropdown" role="dialog" aria-label="Student profile">
+        <div class="profile-dropdown-header">
+          <h3 id="profileDisplayName">Guest User</h3>
+          <p class="profile-subtitle">Student Profile</p>
+        </div>
+        <div class="profile-info" id="profileInfo">
+          <p class="guest-message">No profile saved yet. Fill in your details below.</p>
+        </div>
+        <button class="btn btn-outline btn-sm" id="editProfileBtn">Edit Profile</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Home Section -->
+    <section id="home" class="section hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Plan Your Attendance Smartly</h1>
+          <p>Track your class attendance, set targets, and know exactly how many classes you can safely miss — all in one place.</p>
+          <a href="#dashboard" class="btn btn-primary">Go to Dashboard</a>
+        </div>
+        <h2 class="feature-section-title">Features</h2>
+        <div class="hero-cards">
+          <div class="feature-card">
+            <span class="feature-icon">📊</span>
+            <h3>Live Calculator</h3>
+            <p>Instant attendance percentage and planning insights.</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🎯</span>
+            <h3>Target Tracking</h3>
+            <p>See how many classes you need to attend to hit your goal.</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">✅</span>
+            <h3>Safe Absences</h3>
+            <p>Know your safe absence allowance before skipping class.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section dashboard">
+      <div class="container">
+        <h2 class="section-title">Dashboard</h2>
+        <p class="section-subtitle">Manage your profile and calculate attendance</p>
+
+        <div class="dashboard-grid">
+
+          <!-- Student Profile Form -->
+          <div class="card profile-card">
+            <h3 class="card-title">Student Profile</h3>
+            <form id="profileForm" novalidate>
+              <div class="form-group">
+                <label for="studentName">Name</label>
+                <input type="text" id="studentName" placeholder="Enter your full name" autocomplete="name">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="studentYear">Year</label>
+                  <input type="text" id="studentYear" placeholder="e.g. 2nd Year">
+                </div>
+                <div class="form-group">
+                  <label for="studentSection">Section</label>
+                  <input type="text" id="studentSection" placeholder="e.g. A">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="studentRoll">Roll Number</label>
+                <input type="text" id="studentRoll" placeholder="Enter roll number">
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Profile</button>
+              </div>
+              <p class="form-success" id="profileSuccess" role="status" hidden>Profile saved successfully!</p>
+            </form>
+          </div>
+
+          <!-- Attendance Calculator -->
+          <div class="card calculator-card">
+            <h3 class="card-title">Attendance Calculator</h3>
+            <form id="calculatorForm" novalidate>
+              <div class="form-group">
+                <label for="classesAttended">Classes Attended</label>
+                <input type="number" id="classesAttended" min="0" step="1" placeholder="0">
+              </div>
+              <div class="form-group">
+                <label for="totalClasses">Total Classes Conducted</label>
+                <input type="number" id="totalClasses" min="0" step="1" placeholder="0">
+              </div>
+              <div class="form-group">
+                <label for="targetPercentage">Target Attendance Percentage</label>
+                <input type="number" id="targetPercentage" min="0" max="100" step="0.1" placeholder="e.g. 75">
+              </div>
+
+              <!-- Error messages container -->
+              <div class="error-box" id="errorBox" role="alert" hidden>
+                <ul id="errorList"></ul>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="calculateBtn">Calculate</button>
+                <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+              </div>
+            </form>
+
+            <!-- Results -->
+            <div class="results" id="results" hidden>
+              <h4 class="results-title">Results</h4>
+              <div class="results-grid">
+                <div class="result-card">
+                  <span class="result-label">Current Attendance</span>
+                  <span class="result-value" id="currentPercentage">—</span>
+                </div>
+                <div class="result-card">
+                  <span class="result-label">Consecutive Classes Needed</span>
+                  <span class="result-value" id="consecutiveClassesNeeded">—</span>
+                  <span class="result-hint">future classes to attend in a row</span>
+                </div>
+                <div class="result-card">
+                  <span class="result-label">Safe Absence Allowance</span>
+                  <span class="result-value" id="safeAbsence">—</span>
+                  <span class="result-hint">classes can be missed</span>
+                </div>
+              </div>
+
+              <!-- Attendance Status Indicator -->
+              <div class="status-card" id="statusCard">
+                <div class="status-header">
+                  <span class="status-dot" id="statusDot"></span>
+                  <h4 id="statusTitle">—</h4>
+                </div>
+                <p id="statusMessage">—</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+      <div class="container">
+        <h2 class="section-title">About</h2>
+        <div class="card about-card">
+          <p>
+            <strong>Attendance Planner</strong> is a student productivity tool designed to help you
+            stay on top of your class attendance requirements. Enter your attended and total classes,
+            set a target percentage, and instantly see where you stand.
+          </p>
+          <ul class="about-list">
+            <li>Calculate your current attendance percentage</li>
+            <li>Find how many consecutive future classes you need to attend</li>
+            <li>Discover your safe absence allowance</li>
+            <li>Get color-coded attendance status feedback</li>
+            <li>Save your student profile locally in your browser</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Attendance Planner - Student Productivity Tool</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
